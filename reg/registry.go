@@ -1,14 +1,14 @@
 package registry
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"encoding/json"
 	"sync"
-	
-	cfg "github.com/zensqlmonitor/influxdb-zabbix/config"
-	log "github.com/zensqlmonitor/influxdb-zabbix/log"
+
+	cfg "github.com/voyagerwoo/influxdb-zabbix/config"
+	log "github.com/voyagerwoo/influxdb-zabbix/log"
 )
 
 type Registry struct {
@@ -21,7 +21,6 @@ type MapTable map[string]string
 //var mapTables = make(MapTable)
 
 var mu sync.Mutex
-
 
 func check(e error) {
 	if e != nil {

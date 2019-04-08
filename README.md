@@ -14,7 +14,7 @@ As InfluxDB provides an excellent compression rate (in our case: 7x), this proje
 - influxdb-zabbix:
 	- [Install GO](https://golang.org/doc/install)
 	- [Setup you GOPATH](https://golang.org/doc/code.html#GOPATH)
-	- Run ``` go get github.com/zensqlmonitor/influxdb-zabbix ```
+	- Run ``` go get github.com/voyagerwoo/influxdb-zabbix ```
 	- Edit influxdb-zabbix.conf to match your needs  <br />	
 - PostgreSQL:
 

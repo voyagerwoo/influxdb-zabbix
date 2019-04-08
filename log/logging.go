@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	cfg "github.com/zensqlmonitor/influxdb-zabbix/config"
+	cfg "github.com/voyagerwoo/influxdb-zabbix/config"
 )
 
 // Initialize logging

@@ -1,6 +1,6 @@
 [Unit]
 Description=Gather data from Zabbix back-end and load to InfluxDB in near real-time
-Documentation=https://github.com/zensqlmonitor/influxdb-zabbix 
+Documentation=https://github.com/voyagerwoo/influxdb-zabbix 
 After=network.target
 
 [Service]

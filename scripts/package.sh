@@ -6,7 +6,7 @@
 # - GOPATH must be set
 # - 'fpm' must be on the path
 #
-#    https://github.com/zensqlmonitor/influxdb-zabbix
+#    https://github.com/voyagerwoo/influxdb-zabbix
 #
 # Packaging process: to install a build, simply execute:
 #
@@ -34,7 +34,7 @@ WORK_DIR=''
 POST_INSTALL_PATH=$(mktemp)
 ARCH=$(uname -i)
 LICENSE=MIT
-URL=https://github.com/zensqlmonitor/influxdb-zabbix
+URL=https://github.com/voyagerwoo/influxdb-zabbix
 MAINTAINER=sqlzen@hotmail.com
 VENDOR=sqlzenmonitor
 DESCRIPTION="Gather data from Zabbix back-end and load to InfluxDB in near real-time"

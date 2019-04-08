@@ -14,12 +14,12 @@ import (
 	"syscall"
 	"time"
 
-	cfg "github.com/zensqlmonitor/influxdb-zabbix/config"
-	helpers "github.com/zensqlmonitor/influxdb-zabbix/helpers"
-	input "github.com/zensqlmonitor/influxdb-zabbix/input"
-	log "github.com/zensqlmonitor/influxdb-zabbix/log"
-	influx "github.com/zensqlmonitor/influxdb-zabbix/output/influxdb"
-	registry "github.com/zensqlmonitor/influxdb-zabbix/reg"
+	cfg "github.com/voyagerwoo/influxdb-zabbix/config"
+	helpers "github.com/voyagerwoo/influxdb-zabbix/helpers"
+	input "github.com/voyagerwoo/influxdb-zabbix/input"
+	log "github.com/voyagerwoo/influxdb-zabbix/log"
+	influx "github.com/voyagerwoo/influxdb-zabbix/output/influxdb"
+	registry "github.com/voyagerwoo/influxdb-zabbix/reg"
 )
 
 var m runtime.MemStats
@@ -40,10 +40,10 @@ type Param struct {
 }
 
 type Input struct {
-	provider      string
-	address       string
-	tablename     string
-	interval      int
+	provider        string
+	address         string
+	tablename       string
+	interval        int
 	minutesperbatch int
 }
 
@@ -123,8 +123,8 @@ func (p *Param) gatherData() error {
 			currTableForLog,
 			rowcount,
 			time.Since(startwatch)))
-			
-    // set max clock time
+
+	// set max clock time
 	var maxclock time.Time = startimerfc
 	if ext.Maxclock.IsZero() == false {
 		maxclock = ext.Maxclock
@@ -245,14 +245,13 @@ func (p *Param) gatherData() error {
 
 	if config.Logging.LevelFile == "Trace" || config.Logging.LevelConsole == "Trace" {
 		runtime.ReadMemStats(&m)
-		log.Trace(fmt.Sprintf("--- Memory usage: Alloc = %s | TotalAlloc = %s | Sys = %s | NumGC = %v", 
-			helpers.IBytes(m.Alloc / 1024), 
-			helpers.IBytes(m.TotalAlloc / 1024), 
-			helpers.IBytes(m.Sys / 1024), 
+		log.Trace(fmt.Sprintf("--- Memory usage: Alloc = %s | TotalAlloc = %s | Sys = %s | NumGC = %v",
+			helpers.IBytes(m.Alloc/1024),
+			helpers.IBytes(m.TotalAlloc/1024),
+			helpers.IBytes(m.Sys/1024),
 			m.NumGC))
 	}
 
-				
 	// print all log messages
 	print(infoLogs)
 
@@ -269,17 +268,17 @@ func print(infoLogs []string) {
 }
 
 //
-// Save max time 
+// Save max time
 //
 func saveMaxTime(tablename string, starttime time.Time, maxtime time.Time, duration int) {
 
 	var timetosave time.Time
 
-	// if maxtime is greater than now, keep the maxclock returned 
-	if (starttime.Add(time.Hour * time.Duration(duration))).After(time.Now()) {
+	// if maxtime is greater than now, keep the maxclock returned
+	if (starttime.Add(time.Minute * time.Duration(duration))).After(time.Now()) {
 		timetosave = maxtime
 	} else {
-		timetosave = starttime.Add(time.Hour * time.Duration(duration))
+		timetosave = starttime.Add(time.Minute * time.Duration(duration))
 	}
 
 	registry.Save(config,
@@ -394,10 +393,10 @@ func main() {
 			var tlen int = len(table.Name)
 			var durationh string
 			var duration time.Duration = time.Duration(table.Minutesperbatch) * time.Minute
-			if (duration.Hours() >= 24) {
-				durationh = fmt.Sprintf("%v days per batch", duration.Hours()/24)
+			if duration.Minutes() >= 60 {
+				durationh = fmt.Sprintf("%v minutes per batch", duration.Minutes()/60)
 			} else {
-				durationh = fmt.Sprintf("%v hours per batch", duration.Hours())
+				durationh = fmt.Sprintf("%v minutes per batch", duration.Minutes())
 			}
 
 			log.Trace(
@@ -419,7 +418,7 @@ func main() {
 	log.Trace(fmt.Sprintf("--- Provider: %s", provider))
 
 	influxdb := config.InfluxDB
-	
+
 	for _, table := range tables {
 
 		input := Input{

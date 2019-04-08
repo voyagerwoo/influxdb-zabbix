@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"strings"
 	"time"
-	
-	helpers "github.com/zensqlmonitor/influxdb-zabbix/helpers"
-	
+
+	helpers "github.com/voyagerwoo/influxdb-zabbix/helpers"
+
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 )
@@ -48,7 +48,7 @@ func (input *Input) getSQL() string {
 		strings.Replace(
 			query,
 			"##STARTDATE##", input.Starttime, -1),
-		    "##ENDDATE##", input.Endtime, -1)
+		"##ENDDATE##", input.Endtime, -1)
 }
 
 func (input *Input) Extract() error {

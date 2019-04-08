@@ -44,7 +44,7 @@ type Input struct {
 	address       string
 	tablename     string
 	interval      int
-	hoursperbatch int
+	minutesperbatch int
 }
 
 type Output struct {
@@ -87,7 +87,7 @@ func (p *Param) gatherData() error {
 		}
 	}
 	var starttimestr string = strconv.FormatInt(startimerfc.Unix(), 10)
-	var endtimetmp time.Time = startimerfc.Add(time.Hour * time.Duration(p.input.hoursperbatch))
+	var endtimetmp time.Time = startimerfc.Add(time.Minute * time.Duration(p.input.minutesperbatch))
 	var endtimestr string = strconv.FormatInt(endtimetmp.Unix(), 10)
 
 	//
@@ -235,7 +235,7 @@ func (p *Param) gatherData() error {
 	}
 
 	// Save in registry
-	saveMaxTime(currTable, startimerfc, maxclock, p.input.hoursperbatch)
+	saveMaxTime(currTable, startimerfc, maxclock, p.input.minutesperbatch)
 
 	tlen = len(currTable)
 	infoLogs = append(infoLogs,
@@ -393,7 +393,7 @@ func main() {
 		if table.Active {
 			var tlen int = len(table.Name)
 			var durationh string
-			var duration time.Duration = time.Duration(table.Hoursperbatch) * time.Hour
+			var duration time.Duration = time.Duration(table.Minutesperbatch) * time.Minute
 			if (duration.Hours() >= 24) {
 				durationh = fmt.Sprintf("%v days per batch", duration.Hours()/24)
 			} else {
@@ -427,7 +427,7 @@ func main() {
 			address,
 			table.Name,
 			table.Interval,
-			table.Hoursperbatch}
+			table.Minutesperbatch}
 
 		output := Output{
 			influxdb.Url,

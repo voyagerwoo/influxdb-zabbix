@@ -36,7 +36,7 @@ const (
 
 	DefaultZabbixAddress      string = "host=localhost user=zabbix sslmode=disable database=zabbix"
 	DefaultTableInterval      int    = 15
-	DefaultHoursPerBatch      int    = 320 // 15 days
+	DefaultMinutesPerBatch    int    = 60 // 1 hour
 	DefaultOutputRowsPerBatch int    = 100000
 )
 
@@ -67,7 +67,7 @@ type Table struct {
 	Active             bool
 	Interval           int
 	Startdate          string
-	Hoursperbatch       int
+	Minutesperbatch    int
 	Outputrowsperbatch int
 }
 type registry struct {
@@ -226,8 +226,8 @@ func (tomlConfig *TOMLConfig) validate() error {
 				return fmterr("Validation failed : Startdate for table %s is not well formatted.", tableName)
 			}
 		}
-		if table.Hoursperbatch == 0 {
-			tomlConfig.Tables[tableName].Hoursperbatch = DefaultHoursPerBatch
+		if table.Minutesperbatch == 0 {
+			tomlConfig.Tables[tableName].Minutesperbatch = DefaultMinutesPerBatch
 		}
 		if table.Outputrowsperbatch == 0 {
 			tomlConfig.Tables[tableName].Outputrowsperbatch = DefaultOutputRowsPerBatch

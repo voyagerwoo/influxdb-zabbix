@@ -394,7 +394,7 @@ func main() {
 			var durationh string
 			var duration time.Duration = time.Duration(table.Minutesperbatch) * time.Minute
 			if duration.Minutes() >= 60 {
-				durationh = fmt.Sprintf("%v minutes per batch", duration.Minutes()/60)
+				durationh = fmt.Sprintf("%v hours per batch", duration.Minutes()/60)
 			} else {
 				durationh = fmt.Sprintf("%v minutes per batch", duration.Minutes())
 			}
